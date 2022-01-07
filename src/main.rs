@@ -1,15 +1,24 @@
 use dirs::home_dir;
 
+use std::process::Command;
 use std::convert::AsRef;
 use std::path::{Path, PathBuf};
 use std::fs;
+use std::string::FromUtf8Error;
 
 #[derive(Debug)]
 pub enum Error {
     IO(std::io::Error),
     FMT(std::fmt::Error),
     NotFoundError(String),
+    FromUtf8Error,
     ConversionError,
+}
+
+impl From<FromUtf8Error> for Error {
+    fn from(_: FromUtf8Error) -> Error {
+        Error::FromUtf8Error
+    }
 }
 
 macro_rules! impl_error_from {
@@ -32,6 +41,7 @@ impl std::fmt::Display for Error {
             Error::FMT(error) => write!(f, "fmt error {}", error),
             Error::NotFoundError(error) => write!(f, "file {:?} is Not Found", error),
             Error::ConversionError => write!(f, "ConversionError"),
+            Error::FromUtf8Error => write!(f, "faild convert utf8"),
         }
     }
 }
@@ -109,10 +119,68 @@ fn cp<P: AsRef<Path> + std::fmt::Debug> (source: P, target: P) -> Result<(), Err
     Ok(())
 }
 
+fn byte_string(bite: Vec<u8>) -> Result<String, Error> {
+    Ok(String::from_utf8(bite)?)
+}
+
+fn print_with_new_line(string: String) {
+    let lines: Vec<&str> = string.split("\n").collect();
+    for line in lines {
+        println!("{}", line);
+    }
+}
+
+fn zinit() -> Result<(), Error> {
+    println!("=============================================");
+    println!("install zinit");
+    let zinit_install_script = String::from_utf8(
+            Command::new("curl")
+                .arg("-fsSL")
+                .arg("https://git.io/zinit-install")
+                .output()
+                .expect("Faild to get ZINIT install script")
+                .stdout
+    )?;
+    let install_res = Command::new("sh")
+        .arg("-c")
+        .arg(&zinit_install_script)
+        .output()
+        .expect("Failed to install zinit");
+    println!("INSTALL STATUS {:?}", &install_res.status);
+    println!("INSTALL STDOUT");
+    print_with_new_line(byte_string(install_res.stdout)?);
+    println!("INSTALL STDERR");
+    print_with_new_line(byte_string(install_res.stderr)?);
+    println!("=============================================");
+    Ok(())
+}
+
+fn fzf() -> Result<(), Error> {
+    println!("=============================================");
+    println!("install fzf");
+    let _git = Command::new("git")
+        .arg("clone")
+        .arg("--depth")
+        .arg("1")
+        .arg("https://github.com/junegunn/fzf.git")
+        .arg("~/.fzf")
+        .output()
+        .expect("Failed to clone fzf");
+    let install = Command::new("~/.fzf/install")
+        .output()
+        .expect("Failed to install fzf");
+    print_with_new_line(byte_string(install.stdout)?);
+    print_with_new_line(byte_string(install.stderr)?);
+    println!("=============================================");
+    Ok(())
+}
+
 fn main() -> Result<(),Error> {
     let dofiles_path = "./dotfiles".to_string();
     let files = dir_traversal(&dofiles_path).unwrap();
     let home_dir = home_dir().unwrap();
+    zinit()?;
+    fzf()?;
     for path in files {
         let mut new_path = home_dir.clone();
         new_path.push(&remove_useless_path_string(&dofiles_path, &path));

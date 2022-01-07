@@ -19,7 +19,7 @@ endif
 if dein#load_state(s:dein_dir)
     call dein#begin(s:dein_dir)
     " プラグインリスト(toml)
-    let g:rc_dir    = expand('$HOME/.vim')
+    let g:rc_dir    = expand('$HOME/.config/nvim')
     let s:toml      = g:rc_dir . '/dein.toml'
     let s:lazy_toml = g:rc_dir . '/dein_lazy.toml'
     " tomlのロード
@@ -30,34 +30,10 @@ if dein#load_state(s:dein_dir)
     call dein#save_state()
 endif
 
-" " Required:
-" set runtimepath+=/Users/kondouakira/.cache/dein/repos/github.com/Shougo/dein.vim
-" 
-" " Required:
-" 
-" call dein#begin('/Users/kondouakira/.cache/dein')
-" 
-" " Let dein manage dein
-" " Required:
-" call dein#add('/Users/kondouakira/.cache/dein/repos/github.com/Shougo/dein.vim')
-" call dein#load_toml('/Users/kondouakira/.config/nvim/dein.toml', {'lazy': 0})
-" call dein#load_toml('/Users/kondouakira/.config/nvim/dein_lazy.toml', {'lazy': 0})
-" " Required:
-" call dein#end()
-" 
-" " Required:
-" filetype plugin indent on
-" syntax enable
-" 
-" " もし、未インストールものものがあったらインストール
-" if dein#check_install()
-"   call dein#install()
-" endif
-
 "End dein Scripts-------------------------
 
-
 set relativenumber
+set number
 set nocompatible
 filetype plugin on
 
