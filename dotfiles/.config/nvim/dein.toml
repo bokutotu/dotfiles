@@ -6,3 +6,12 @@ merged = '0'
 [[plugins]]
 repo = 'junegunn/fzf.vim'
 depends = 'fzf'
+
+[[plugins]]
+repo = "neoclide/coc.nvim"
+if = '''executable('node') && executable('yarn')'''
+build = './install.sh nightly'
+merged = '0'
+hook_add = """
+source ~/.config/nvim/plugins/coc.rc.vim
+"""

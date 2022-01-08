@@ -36,7 +36,9 @@ export LS_COLORS='di=34:ln=35:so=32:pi=33:ex=31:bd=46;34:cd=43;34:su=41;30:sg=46
 alias ls="ls -GF"
 alias gls="gls --color"
 
-zstyle ':completion:*' list-colors 'di=34' 'ln=35' 'so=32' 'ex=31' 'bd=46;34' 'cd=43;34'
+# fzf
+[ -f ~/.fzf.zsh ] && source ~/.fzf.zsh
+
 # Use fd and fzf to get the args to a command.
 # Works only with zsh
 # Examples:
@@ -71,119 +73,7 @@ ec () {
 	fi
 }
 
-# Run command/application and choose paths/files with fzf.                      
-# Always return control of the terminal to user (e.g. when opening GUIs).       
-# The full command that was used will appear in your history just like any      
-# other (N.B. to achieve this I write the shell's active history to             
-# ~/.bash_history)                                                                
-#                                                                               
-# Usage:
-# f cd [OPTION]... (hit enter, choose path)
-# f cat [OPTION]... (hit enter, choose files)
-# f vim [OPTION]... (hit enter, choose files)
-# f vlc [OPTION]... (hit enter, choose files)
-
-# f() {
-#     # Store the program
-#     program="$1"
-# 
-#     # Remove first argument off the list
-#     shift
-# 
-#     # Store option flags with separating spaces, or just set as single space
-#     options="$@"
-#     if [ -z "${options}" ]; then
-#         options=" "
-#     else
-#         options=" $options "
-#     fi
-# 
-#     # Store the arguments from fzf
-#     arguments=($(fzf --multi))
-# 
-#     # If no arguments passed (e.g. if Esc pressed), return to terminal
-#     if [ -z "${arguments}" ]; then
-#         return 1
-#     fi
-# 
-#     # We want the command to show up in our bash history, so write the shell's
-#     # active history to ~/.bash_history. Then we'll also add the command from
-#     # fzf, then we'll load it all back into the shell's active history
-#     history -w
-# 
-#     # ADD A REPEATABLE COMMAND TO THE BASH HISTORY ############################
-#     # Store the arguments in a temporary file for sanitising before being
-#     # entered into bash history
-#     : > /tmp/fzf_tmp
-#     for file in "${arguments[@]}"; do
-#         echo "$file" >> /tmp/fzf_tmp
-#     done
-# 
-#     # Put all input arguments on one line and sanitise the command by putting
-#     # single quotes around each argument, also first put an extra single quote
-#     # next to any pre-existing single quotes in the raw argument
-#     sed -i "s/'/''/g; s/.*/'&'/g; s/\n//g" /tmp/fzf_tmp
-# 
-#     # If the program is on the GUI list, add a '&' to the command history
-#     if [[ "$program" =~ ^(nautilus|zathura|evince|vlc|eog|kolourpaint)$ ]]; then
-#         sed -i '${s/$/ \&/}' /tmp/fzf_tmp
-#     fi
-# 
-#     # Grab the sanitised arguments
-#     arguments="$(cat /tmp/fzf_tmp)"
-# 
-#     # Add the command with the sanitised arguments to our .bash_history
-#     echo $program$options$arguments >> ~/.bash_history
-# 
-#     # Reload the ~/.bash_history into the shell's active history
-#     history -r
-# 
-#     # EXECUTE THE LAST COMMAND IN ~/.bash_history #############################
-#     fc -s -1
-# 
-#     # Clean up temporary variables
-#     rm /tmp/fzf_tmp
-# }
-
-# vf - fuzzy open with vim from anywhere
-# ex: vf word1 word2 ... (even part of a file name)
-# zsh autoload function
-vf() {
-  local files
-
-  files=(${(f)"$(locate -Ai -0 $@ | grep -z -vE '~$' | fzf --read0 -0 -1 -m)"})
-
-  if [[ -n $files ]]
-  then
-     nvim -- $files
-     print -l $files[1]
-  fi
-}
-
-# fuzzy grep open via ag
-vg() {
-  local file
-
-  file="$(ag --nobreak --noheading $@ | fzf -0 -1 | awk -F: '{print $1}')"
-
-  if [[ -n $file ]]
-  then
-     vim $file
-  fi
-}
-
-# fuzzy grep open via ag with line number
-vg() {
-  local file
-  local line
-
-  read -r file line <<<"$(ag --nobreak --noheading $@ | fzf -0 -1 | awk -F: '{print $1, $2}')"
-
-  if [[ -n $file ]]
-  then
-     vim $file +$line
-  fi
-}
+zstyle ':completion:*' list-colors 'di=34' 'ln=35' 'so=32' 'ex=31' 'bd=46;34' 'cd=43;34'
 
 # fd - cd to selected directory
 fd() {
@@ -192,26 +82,10 @@ fd() {
                   -o -type d -print 2> /dev/null | fzf +m) &&
   cd "$dir"
 }
-
 # fda - including hidden directories
 fda() {
   local dir
   dir=$(find ${1:-.} -type d 2> /dev/null | fzf +m) && cd "$dir"
-}
-
-# fdr - cd to selected parent directory
-fdr() {
-  local declare dirs=()
-  get_parent_dirs() {
-    if [[ -d "${1}" ]]; then dirs+=("$1"); else return; fi
-    if [[ "${1}" == '/' ]]; then
-      for _dir in "${dirs[@]}"; do echo $_dir; done
-    else
-      get_parent_dirs $(dirname "$1")
-    fi
-  }
-  local DIR=$(get_parent_dirs $(realpath "${1:-$PWD}") | fzf-tmux --tac)
-  cd "$DIR"
 }
 
 # cf - fuzzy cd from anywhere
@@ -233,90 +107,27 @@ cf() {
   fi
 }
 
+# fdr - cd to selected parent directory
+fdr() {
+  local declare dirs=()
+  get_parent_dirs() {
+    if [[ -d "${1}" ]]; then dirs+=("$1"); else return; fi
+    if [[ "${1}" == '/' ]]; then
+      for _dir in "${dirs[@]}"; do echo $_dir; done
+    else
+      get_parent_dirs $(dirname "$1")
+    fi
+  }
+  local DIR=$(get_parent_dirs $(realpath "${1:-$PWD}") | fzf-tmux --tac)
+  cd "$DIR"
+}
+
 # cdf - cd into the directory of the selected file
 cdf() {
    local file
    local dir
    file=$(fzf +m -q "$1") && dir=$(dirname "$file") && cd "$dir"
 }
-
-# fkill - kill processes - list only the ones you can kill. Modified the earlier script.
-fkill() {
-    local pid 
-    if [ "$UID" != "0" ]; then
-        pid=$(ps -f -u $UID | sed 1d | fzf -m | awk '{print $2}')
-    else
-        pid=$(ps -ef | sed 1d | fzf -m | awk '{print $2}')
-    fi  
-
-    if [ "x$pid" != "x" ]
-    then
-        echo $pid | xargs kill -${1:-9}
-    fi  
-}
-
-# fbr - checkout git branch
-fbr() {
-  local branches branch
-  branches=$(git --no-pager branch -vv) &&
-  branch=$(echo "$branches" | fzf +m) &&
-  git checkout $(echo "$branch" | awk '{print $1}' | sed "s/.* //")
-}
-
-# fbr - checkout git branch (including remote branches)
-fbr() {
-  local branches branch
-  branches=$(git branch --all | grep -v HEAD) &&
-  branch=$(echo "$branches" |
-           fzf-tmux -d $(( 2 + $(wc -l <<< "$branches") )) +m) &&
-  git checkout $(echo "$branch" | sed "s/.* //" | sed "s#remotes/[^/]*/##")
-}
-
-# fbr - checkout git branch (including remote branches), sorted by most recent commit, limit 30 last branches
-fbr() {
-  local branches branch
-  branches=$(git for-each-ref --count=30 --sort=-committerdate refs/heads/ --format="%(refname:short)") &&
-  branch=$(echo "$branches" |
-           fzf-tmux -d $(( 2 + $(wc -l <<< "$branches") )) +m) &&
-  git checkout $(echo "$branch" | sed "s/.* //" | sed "s#remotes/[^/]*/##")
-}
-
-# fco - checkout git branch/tag
-fco() {
-  local tags branches target
-  branches=$(
-    git --no-pager branch --all \
-      --format="%(if)%(HEAD)%(then)%(else)%(if:equals=HEAD)%(refname:strip=3)%(then)%(else)%1B[0;34;1mbranch%09%1B[m%(refname:short)%(end)%(end)" \
-    | sed '/^$/d') || return
-  tags=$(
-    git --no-pager tag | awk '{print "\x1b[35;1mtag\x1b[m\t" $1}') || return
-  target=$(
-    (echo "$branches"; echo "$tags") |
-    fzf --no-hscroll --no-multi -n 2 \
-        --ansi) || return
-  git checkout $(awk '{print $2}' <<<"$target" )
-}
-
-
-# fco_preview - checkout git branch/tag, with a preview showing the commits between the tag/branch and HEAD
-fco_preview() {
-  local tags branches target
-  branches=$(
-    git --no-pager branch --all \
-      --format="%(if)%(HEAD)%(then)%(else)%(if:equals=HEAD)%(refname:strip=3)%(then)%(else)%1B[0;34;1mbranch%09%1B[m%(refname:short)%(end)%(end)" \
-    | sed '/^$/d') || return
-  tags=$(
-    git --no-pager tag | awk '{print "\x1b[35;1mtag\x1b[m\t" $1}') || return
-  target=$(
-    (echo "$branches"; echo "$tags") |
-    fzf --no-hscroll --no-multi -n 2 \
-        --ansi --preview="git --no-pager log -150 --pretty=format:%s '..{2}'") || return
-  git checkout $(awk '{print $2}' <<<"$target" )
-}
-
-
-# fzf
-[ -f ~/.fzf.zsh ] && source ~/.fzf.zsh
 
 ZSH_DISABLE_COMPFIX=true
 
