@@ -13,6 +13,8 @@ source "${ZINIT_HOME}/zinit.zsh"
 zinit load "mafredri/zsh-async"
 # テーマ(ここは好みで。調べた感じpureが人気)
 zinit load "sindresorhus/pure"
+zstyle :prompt:pure:path color '#00FFFF'
+
 # oh-my-zshのセットアップ
 # zinit snippet OMZL::git.zsh
 # zinit snippet OMZP::git # <- なんかおまじないらしい
@@ -28,7 +30,7 @@ zinit load "sindresorhus/pure"
 # setopt promptsubst
 # zinit snippet OMZT::gnzh
 # zinit light agnoster/agnoster-zsh-theme
-# zstyle :prompt:pure:path color '#00FFFF'
+
 # クローンしたGit作業ディレクトリで、コマンド `git open` を実行するとブラウザでGitHubが開く
 zinit light paulirish/git-open
 # 構文のハイライト(https://github.com/zsh-users/zsh-syntax-highlighting)
