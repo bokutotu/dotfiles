@@ -1,3 +1,10 @@
+# Enable Powerlevel10k instant prompt. Should stay close to the top of ~/.zshrc.
+# Initialization code that may require console input (password prompts, [y/n]
+# confirmations, etc.) must go above this block; everything else may go below.
+if [[ -r "${XDG_CACHE_HOME:-$HOME/.cache}/p10k-instant-prompt-${(%):-%n}.zsh" ]]; then
+  source "${XDG_CACHE_HOME:-$HOME/.cache}/p10k-instant-prompt-${(%):-%n}.zsh"
+fi
+
 
 # zinit load
 ZINIT_HOME="${XDG_DATA_HOME:-${HOME}/.local/share}/zinit/zinit.git"
@@ -6,7 +13,24 @@ source "${ZINIT_HOME}/zinit.zsh"
 zinit load "mafredri/zsh-async"
 # テーマ(ここは好みで。調べた感じpureが人気)
 zinit load "sindresorhus/pure"
-zstyle :prompt:pure:path color '#00FFFF'
+# oh-my-zshのセットアップ
+zinit snippet OMZL::git.zsh
+zinit snippet OMZP::git # <- なんかおまじないらしい
+zinit cdclear -q
+
+# Prezto
+zinit snippet PZT::modules/helper/init.zsh
+
+# p10k
+zinit ice depth=1; zinit light romkatv/powerlevel10k
+
+# プロンプトのカスタマイズ
+# setopt promptsubst
+# zinit snippet OMZT::gnzh
+# zinit light agnoster/agnoster-zsh-theme
+# zstyle :prompt:pure:path color '#00FFFF'
+# クローンしたGit作業ディレクトリで、コマンド `git open` を実行するとブラウザでGitHubが開く
+zinit light paulirish/git-open
 # 構文のハイライト(https://github.com/zsh-users/zsh-syntax-highlighting)
 zinit load "zsh-users/zsh-syntax-highlighting"
 # コマンド入力途中で上下キー押したときの過去履歴がいい感じに出るようになる
@@ -30,11 +54,17 @@ SAVEHIST=10000
 autoload -U compinit
 compinit
 
-export LSCOLORS=exfxcxdxbxegedabagacad
-export LS_COLORS='di=34:ln=35:so=32:pi=33:ex=31:bd=46;34:cd=43;34:su=41;30:sg=46;30:tw=42;30:ow=43;30'
+# export CLICOLOR=1
+# export LSCOLORS=ExGxBxDxCxEgEdxbxgxcxd
+# alias ll="ls -alG"
+# alias gls="gls --color"
+# # eval "$(dircolors)"
+# zstyle ':completion:*' list-colors ${(s.:.)LS_COLORS}
 
-alias ls="ls -GF"
-alias gls="gls --color"
+# export LSCOLORS=exfxcxdxbxegedabagacad
+# export LS_COLORS='di=34:ln=35:so=32:pi=33:ex=31:bd=46;34:cd=43;34:su=41;30:sg=46;30:tw=42;30:ow=43;30'
+# 
+# alias ls="ls -GF"
 
 # fzf
 [ -f ~/.fzf.zsh ] && source ~/.fzf.zsh
@@ -179,3 +209,6 @@ eval "$(pyenv init -)"
 export PATH="/opt/homebrew/opt/luajit-openresty/bin:$PATH"
 export PATH=/opt/local/lib/postgresql13/bin:$PATH
 [ -f "/Users/kondouakira/.ghcup/env" ] && source "/Users/kondouakira/.ghcup/env" # ghcup-env
+
+# To customize prompt, run `p10k configure` or edit ~/.p10k.zsh.
+[[ ! -f ~/.p10k.zsh ]] || source ~/.p10k.zsh
