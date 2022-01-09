@@ -18,3 +18,4 @@ Plug 'neoclide/coc.nvim', {'branch': 'release'}
 call plug#end()
 
 source ~/.config/nvim/plugins/coc.rc.vim
+source ~/.config/nvim/plugins/tex.vim

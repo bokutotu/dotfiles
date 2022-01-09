@@ -131,8 +131,6 @@ cdf() {
 
 ZSH_DISABLE_COMPFIX=true
 
-alias python=python3
-alias pip=pip3
 alias chrome="open -a 'Google Chrome'"
 export PATH="/usr/local/opt/icu4c/bin:$PATH"
 export PATH="/usr/local/opt/icu4c/sbin:$PATH"
@@ -172,9 +170,11 @@ path=(
 # # <<< conda initialize <<<
 
 # pyenv
-export PYENV_ROOT="$HOME/.pyenv/shims"
-export PATH="$PYENV_ROOT:$PATH"
-export PIPENV_PYTHON="$PYENV_ROOT/python"
+eval "$(pyenv init --path)"
+eval "$(pyenv init -)"
+# export PYENV_ROOT="$HOME/.pyenv"
+# export PATH="$PYENV_ROOT/bin:$PATH"
+
 
 export PATH="/opt/homebrew/opt/luajit-openresty/bin:$PATH"
 export PATH=/opt/local/lib/postgresql13/bin:$PATH
