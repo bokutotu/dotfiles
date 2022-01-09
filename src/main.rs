@@ -130,7 +130,19 @@ fn print_with_new_line(string: String) {
     }
 }
 
+fn is_installed<P: AsRef<Path>>(path: P) -> bool {
+    let path = path.as_ref();
+    path.is_file() || path.is_dir()
+}
+
 fn zinit() -> Result<(), Error> {
+    let mut zinit_dir = home_dir().unwrap(); 
+    zinit_dir.push(".local/share/zinit");
+    if is_installed(zinit_dir) {
+        println!("ZINIT is already installed");
+        return Ok(())
+    }
+
     println!("=============================================");
     println!("install zinit");
     let zinit_install_script = String::from_utf8(
@@ -156,6 +168,13 @@ fn zinit() -> Result<(), Error> {
 }
 
 fn fzf() -> Result<(), Error> {
+    let mut fzf_install_dir = home_dir().unwrap();
+    fzf_install_dir.push(".fzf.zsh");
+    if is_installed(fzf_install_dir) {
+        println!("fzf is already installed");
+        return Ok(())
+    }
+
     println!("=============================================");
     println!("install fzf");
     let _git = Command::new("git")
