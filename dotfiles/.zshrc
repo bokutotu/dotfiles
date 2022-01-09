@@ -1,9 +1,9 @@
 # Enable Powerlevel10k instant prompt. Should stay close to the top of ~/.zshrc.
 # Initialization code that may require console input (password prompts, [y/n]
 # confirmations, etc.) must go above this block; everything else may go below.
-if [[ -r "${XDG_CACHE_HOME:-$HOME/.cache}/p10k-instant-prompt-${(%):-%n}.zsh" ]]; then
-  source "${XDG_CACHE_HOME:-$HOME/.cache}/p10k-instant-prompt-${(%):-%n}.zsh"
-fi
+# if [[ -r "${XDG_CACHE_HOME:-$HOME/.cache}/p10k-instant-prompt-${(%):-%n}.zsh" ]]; then
+#   source "${XDG_CACHE_HOME:-$HOME/.cache}/p10k-instant-prompt-${(%):-%n}.zsh"
+# fi
 
 
 # zinit load
@@ -14,15 +14,15 @@ zinit load "mafredri/zsh-async"
 # テーマ(ここは好みで。調べた感じpureが人気)
 zinit load "sindresorhus/pure"
 # oh-my-zshのセットアップ
-zinit snippet OMZL::git.zsh
-zinit snippet OMZP::git # <- なんかおまじないらしい
-zinit cdclear -q
+# zinit snippet OMZL::git.zsh
+# zinit snippet OMZP::git # <- なんかおまじないらしい
+# zinit cdclear -q
 
 # Prezto
-zinit snippet PZT::modules/helper/init.zsh
+# zinit snippet PZT::modules/helper/init.zsh
 
 # p10k
-zinit ice depth=1; zinit light romkatv/powerlevel10k
+# zinit ice depth=1; zinit light romkatv/powerlevel10k
 
 # プロンプトのカスタマイズ
 # setopt promptsubst
@@ -60,6 +60,18 @@ compinit
 # alias gls="gls --color"
 # # eval "$(dircolors)"
 # zstyle ':completion:*' list-colors ${(s.:.)LS_COLORS}
+
+export CLICOLOR=1
+export LSCOLORS=gxfxcxdxbxegedabagacad
+export LS_COLORS='di=36:ln=35:so=32:pi=33:ex=31:bd=46;34:cd=43;34:su=41;30:sg=46;30:tw=42;30:ow=43;30'
+zstyle ':completion:*' list-colors 'di=36' 'ln=35' 'so=32' 'ex=31' 'bd=46;34' 'cd=43;34'
+
+## 補完候補のカーソル選択を有効に
+zstyle ':completion:*:default' menu select=1
+
+## 補完候補の色づけ
+zstyle ':completion:*:default' list-colors ${(s.:.)LS_COLORS}
+
 
 # export LSCOLORS=exfxcxdxbxegedabagacad
 # export LS_COLORS='di=34:ln=35:so=32:pi=33:ex=31:bd=46;34:cd=43;34:su=41;30:sg=46;30:tw=42;30:ow=43;30'
