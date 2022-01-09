@@ -15,6 +15,11 @@ zinit load "mafredri/zsh-async"
 zinit load "sindresorhus/pure"
 zstyle :prompt:pure:path color '#00FFFF'
 
+# cdをオーバーライドしてハイパワーにするやつ
+zinit load "b4b4r07/enhancd"
+# cdした後にlsを実行する
+export ENHANCD_HOOK_AFTER_CD=ls
+
 # oh-my-zshのセットアップ
 # zinit snippet OMZL::git.zsh
 # zinit snippet OMZP::git # <- なんかおまじないらしい
@@ -172,6 +177,14 @@ cdf() {
    local dir
    file=$(fzf +m -q "$1") && dir=$(dirname "$file") && cd "$dir"
 }
+
+# 履歴検索をスムーズに!
+function select-history() {
+  BUFFER=$(history -n -r 1 | fzf --no-sort +m --query "$LBUFFER" --prompt="History > ")
+  CURSOR=$#BUFFER
+}
+zle -N select-history
+bindkey '^r' select-history
 
 ZSH_DISABLE_COMPFIX=true
 
