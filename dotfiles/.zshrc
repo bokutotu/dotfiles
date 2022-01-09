@@ -156,20 +156,25 @@ path=(
 	$path
 )
 
-# >>> conda initialize >>>
-# !! Contents within this block are managed by 'conda init' !!
-__conda_setup="$('/Users/kondouakira/miniforge3/bin/conda' 'shell.zsh' 'hook' 2> /dev/null)"
-if [ $? -eq 0 ]; then
-    eval "$__conda_setup"
-else
-    if [ -f "/Users/kondouakira/miniforge3/etc/profile.d/conda.sh" ]; then
-        . "/Users/kondouakira/miniforge3/etc/profile.d/conda.sh"
-    else
-        export PATH="/Users/kondouakira/miniforge3/bin:$PATH"
-    fi
-fi
-unset __conda_setup
-# <<< conda initialize <<<
+# # >>> conda initialize >>>
+# # !! Contents within this block are managed by 'conda init' !!
+# __conda_setup="$('/Users/kondouakira/miniforge3/bin/conda' 'shell.zsh' 'hook' 2> /dev/null)"
+# if [ $? -eq 0 ]; then
+#     eval "$__conda_setup"
+# else
+#     if [ -f "/Users/kondouakira/miniforge3/etc/profile.d/conda.sh" ]; then
+#         . "/Users/kondouakira/miniforge3/etc/profile.d/conda.sh"
+#     else
+#         export PATH="/Users/kondouakira/miniforge3/bin:$PATH"
+#     fi
+# fi
+# unset __conda_setup
+# # <<< conda initialize <<<
+
+# pyenv
+export PYENV_ROOT="$HOME/.pyenv/shims"
+export PATH="$PYENV_ROOT:$PATH"
+export PIPENV_PYTHON="$PYENV_ROOT/python"
 
 export PATH="/opt/homebrew/opt/luajit-openresty/bin:$PATH"
 export PATH=/opt/local/lib/postgresql13/bin:$PATH

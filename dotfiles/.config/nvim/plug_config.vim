@@ -11,8 +11,10 @@ autocmd VimEnter * if len(filter(values(g:plugs), '!isdirectory(v:val.dir)'))
 \| endif
 
 call plug#begin('$HOME/.local/share/nvim/plugged')
-Plug 'pechorin/any-jump.vim'
 Plug 'junegunn/fzf', { 'do': { -> fzf#install() } }
 Plug 'junegunn/fzf.vim'
-Plugin 'SirVer/ultisnips'
+Plug 'lervag/vimtex'
+Plug 'neoclide/coc.nvim', {'branch': 'release'}
 call plug#end()
+
+source ~/.config/nvim/plugins/coc.rc.vim
