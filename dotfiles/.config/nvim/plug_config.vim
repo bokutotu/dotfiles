@@ -19,3 +19,4 @@ call plug#end()
 
 source ~/.config/nvim/plugins/coc.rc.vim
 source ~/.config/nvim/plugins/tex.vim
+source ~/.config/nvim/plugins/fzf.vim

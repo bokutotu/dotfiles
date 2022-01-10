@@ -194,12 +194,26 @@ fn fzf() -> Result<(), Error> {
     Ok(())
 }
 
+fn ripgrep() -> Result<(), Error> {
+    println!("=============================================");
+    println!("install ripgrep");
+    let command = Command::new("cargo")
+        .args(["install", "ripgrep"])
+        .output()
+        .expect("faild to install");
+    print_with_new_line(byte_string(command.stderr)?);
+    print_with_new_line(byte_string(command.stdout)?);
+    println!("=============================================");
+    Ok(())
+}
+
 fn main() -> Result<(),Error> {
     let dofiles_path = "./dotfiles".to_string();
     let files = dir_traversal(&dofiles_path).unwrap();
     let home_dir = home_dir().unwrap();
     zinit()?;
     fzf()?;
+    ripgrep()?;
     for path in files {
         let mut new_path = home_dir.clone();
         new_path.push(&remove_useless_path_string(&dofiles_path, &path));

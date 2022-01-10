@@ -48,12 +48,11 @@ set cursorcolumn
 " jpでescと保存になる
 inoremap <silent> jk <ESC>:w<CR>
 
+" ESC 二回でハイライト削除
+nnoremap <ESC><ESC> :nohlsearch<CR>
+
 " <space>wで保存
 nnoremap <silent><Space>w :w<CR>
-
-if &compatible
-  set nocompatible " Be iMproved
-endif
 
 " 編集中でもバッファの移動できるようにする
 set hidden
@@ -77,8 +76,9 @@ augroup fileTypeIndent
     autocmd BufRead,BufNewFile *.json setlocal tabstop=4 softtabstop=4 shiftwidth=4
 augroup END
 
-" LaTeX ----------------------------------
-let g:tex_flavor = "latex"
-let maplocalleader=' '
-
-
+" プラグインごとのキーマップ
+" fzf & ripgrep
+nnoremap <C-b> :Buffers<CR>
+nnoremap <C-g> :Rg<Space>
+nnoremap <leader><leader> :Commands<CR>
+nnoremap <C-p> :call FzfOmniFiles()<CR>
