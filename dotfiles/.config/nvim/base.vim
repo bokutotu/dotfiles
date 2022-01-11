@@ -74,6 +74,7 @@ augroup fileTypeIndent
     autocmd BufRead,BufNewFile *.html setlocal tabstop=2 softtabstop=2 shiftwidth=2
     autocmd BufRead,BufNewFile *.css setlocal tabstop=2 softtabstop=2 shiftwidth=2
     autocmd BufRead,BufNewFile *.json setlocal tabstop=4 softtabstop=4 shiftwidth=4
+    autocmd BufRead,BufNewFile *.tex setlocal tabstop=2 softtabstop=2 shiftwidth=2
 augroup END
 
 " プラグインごとのキーマップ
