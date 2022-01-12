@@ -3,6 +3,19 @@ set number
 set nocompatible
 filetype plugin on
 
+" statusバーにファイルのパスなどを表示する
+" set noruler
+" set laststatus=2
+" set statusline+=%F
+" set statusline+="%f%m%r%h%w [%Y] [0x%02.2B]%< %F%=%4v,%4l %3p%% of %L"
+set statusline=
+" Path to file (head)
+set statusline+=%{expand('%:h')}/
+" Switch color
+set statusline+=%#Keyword#
+" File name (tail)
+set statusline+=%t
+
 " 1行あたり80文字超えたラインでハイライトする
 let &colorcolumn=join(range(120,999),",")
 highlight ColorColumn ctermbg=235 guibg=#2c2d27
