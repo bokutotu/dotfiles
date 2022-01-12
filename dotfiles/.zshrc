@@ -227,11 +227,10 @@ path=(
 # # <<< conda initialize <<<
 
 # pyenv
-#eval "$(pyenv init --path)"
-#eval "$(pyenv init -)"
 export PYENV_ROOT="$HOME/.pyenv"
 export PATH="$PYENV_ROOT/bin:$PATH"
-
+eval "$(pyenv init --path)"
+eval "$(pyenv init -)"
 
 export PATH="/opt/homebrew/opt/luajit-openresty/bin:$PATH"
 export PATH=/opt/local/lib/postgresql13/bin:$PATH
