@@ -1,3 +1,6 @@
+" 色
+colorscheme hybrid
+
 set relativenumber
 set number
 set nocompatible
