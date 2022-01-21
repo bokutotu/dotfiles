@@ -6,18 +6,39 @@ set number
 set nocompatible
 filetype plugin on
 
-" statusバーにファイルのパスなどを表示する
-" set noruler
-" set laststatus=2
-" set statusline+=%F
-" set statusline+="%f%m%r%h%w [%Y] [0x%02.2B]%< %F%=%4v,%4l %3p%% of %L"
-set statusline=
-" Path to file (head)
-set statusline+=%{expand('%:h')}/
-" Switch color
-set statusline+=%#Keyword#
-" File name (tail)
-set statusline+=%t
+" " statusバーにファイルのパスなどを表示する
+" set statusline=
+" " Path to file (head)
+" set statusline+=%{expand('%:h')}/
+" " Switch color
+" set statusline+=%#Keyword#
+" " File name (tail)
+" set statusline+=%t
+" " statuslineの色を背景と別の色にしてみやすくする.
+" highlight StatusLine guifg=DarkSlateGray guibg=OliveDrab
+function! SetStatusLine()
+  if mode() =~ 'i'
+    let c = 1
+    let mode_name = 'Insert'
+  elseif mode() =~ 'n'
+    let c = 2
+    let mode_name = 'Normal'
+  elseif mode() =~ 'R'
+    let c = 3
+    let mode_name = 'Replace'
+  else
+    let c = 4
+    let mode_name = 'Visual'
+  endif
+  return '%' . c . '*[' . mode_name . ']%* %<%F%=%m%r %18([%{toupper(&ft)}][%l/%L]%)'
+endfunction
+ 
+hi User1 gui=bold guibg=red guifg=white
+hi User2 gui=bold guibg=blue guifg=white
+hi User3 gui=bold guibg=coral guifg=white
+hi User4 gui=bold guibg=green guifg=black
+ 
+set statusline=%!SetStatusLine()
 
 " 1行あたり80文字超えたラインでハイライトする
 let &colorcolumn=join(range(120,999),",")
