@@ -101,6 +101,7 @@ set tabstop=4
 augroup fileTypeIndent
     autocmd!
     autocmd BufNewFile,BufRead *.py setlocal tabstop=4 softtabstop=4 shiftwidth=4
+    autocmd BufNewFile,BufRead *.s setlocal tabstop=4 softtabstop=4 shiftwidth=4
     autocmd BufNewFile,BufRead *.cu setlocal tabstop=2 softtabstop=2 shiftwidth=2
     autocmd BufNewFile,BufRead *.c  setlocal tabstop=2 softtabstop=2 shiftwidth=2
     autocmd BufNewFile,BufRead *.cpp  setlocal tabstop=2 softtabstop=2 shiftwidth=2
@@ -120,3 +121,15 @@ nnoremap <C-b> :Buffers<CR>
 nnoremap <C-g> :Rg<Space>
 nnoremap <leader><leader> :Commands<CR>
 nnoremap <C-p> :call FzfOmniFiles()<CR>
+
+" " 画面分割系統
+nnoremap sj <C-w>j
+nnoremap sk <C-w>k
+nnoremap sl <C-w>l
+nnoremap sh <C-w>h
+nnoremap ss :<C-u>sp<CR><C-w>j
+nnoremap sv :<C-u>vs<CR><C-w>l
+
+" xで削除した時はヤンクしない
+vnoremap x "_x
+nnoremap x "_x

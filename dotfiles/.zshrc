@@ -203,7 +203,7 @@ alias unmount='umount -f ~/mount'
 alias tommo_ssh='ssh -l hikarukondo -p 50022 -i ~/.ssh/id_rsa_ToMMo sshgw2.megabank.tohoku.ac.jp'
 alias tommo_mount='sshfs -p 50022 hikarukondo@sshgw2.megabank.tohoku.ac.jp:/home/hikarukondo/ ~/mount -o IdentityFile=~/.ssh/id_rsa_ToMMo'
 alias kino_ssh='ssh -p 50022 -i .ssh/id_rsa_ToMMo  kino_binds@sshgw2.megabank.tohoku.ac.jp'
-alias vmd='~/VMD.app/Contents/MacOS/startup.command'
+alias vmd='~/VMD\ 1.9.4a55-arm64-Rev11.app/Contents/MacOS/startup.command'
 typeset -U path PATH
 path=(
 	/opt/homebrew/bin(N-/)
