@@ -21,5 +21,5 @@ let g:airline#extensions#whitespace#enabled = 0
 let g:airline#extensions#tabline#buffer_idx_mode = 1
 
 " タブの切り替え
-nmap <C-p> <Plug>AirlineSelectPrevTab
+nmap <C-o> <Plug>AirlineSelectPrevTab
 nmap <C-n> <Plug>AirlineSelectNextTab
