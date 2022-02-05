@@ -188,28 +188,7 @@ bindkey '^r' select-history
 
 ZSH_DISABLE_COMPFIX=true
 
-alias chrome="open -a 'Google Chrome'"
-export PATH="/usr/local/opt/icu4c/bin:$PATH"
-export PATH="/usr/local/opt/icu4c/sbin:$PATH"
-export Path="~/.cargo/bin"
-alias vi="nvim "
-alias vim="nvim "
-alias local_un_mount='umount ~/mount && sshfs -p 7423  hikarukondo@192.168.10.104:/ ~/mount'
-alias local_mount='sshfs -p 7423  hikarukondo@192.168.10.104:/ ~/mount'
-alias local_ssh='ssh hikarukondo@192.168.10.104 -p 7423'
-alias nig_ssh='ssh -i ~/.ssh/id_rsa hikarukondo@gw.ddbj.nig.ac.jp'
-alias nig_mount='sshfs hikarukondo@gw.ddbj.nig.ac.jp:/home/hikarukondo/ ~/mount'
-alias unmount='umount -f ~/mount'
-alias tommo_ssh='ssh -l hikarukondo -p 50022 -i ~/.ssh/id_rsa_ToMMo sshgw2.megabank.tohoku.ac.jp'
-alias tommo_mount='sshfs -p 50022 hikarukondo@sshgw2.megabank.tohoku.ac.jp:/home/hikarukondo/ ~/mount -o IdentityFile=~/.ssh/id_rsa_ToMMo'
-alias kino_ssh='ssh -p 50022 -i .ssh/id_rsa_ToMMo  kino_binds@sshgw2.megabank.tohoku.ac.jp'
-alias vmd='~/VMD\ 1.9.4a55-arm64-Rev11.app/Contents/MacOS/startup.command'
-typeset -U path PATH
-path=(
-	/opt/homebrew/bin(N-/)
-	/usr/local/bin(N-/)
-	$path
-)
+source ~/.alias.zsh
 
 # # >>> conda initialize >>>
 # # !! Contents within this block are managed by 'conda init' !!
