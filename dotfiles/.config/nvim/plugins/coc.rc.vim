@@ -88,10 +88,10 @@ endfunction
 nnoremap <silent> <C-t> :<C-u>call CocActionAsync('jumpDefinition', CocJumpAction())<CR>
 
 " GoTo code navigation.
-nmap <silent> F12 <Plug>(coc-definition)
-nmap <silent> F11 <Plug>(coc-type-definition)
-nmap <silent> F10 <Plug>(coc-implementation)
-nmap <silent> F9 <Plug>(coc-references)
+nmap <silent> <F12> <Plug>(coc-definition)
+nmap <silent> <F11> <Plug>(coc-type-definition)
+nmap <silent> <F10> <Plug>(coc-implementation)
+nmap <silent> <F9> <Plug>(coc-references)
 
 " Use K to show documentation in preview window.
 nnoremap <silent> K :call <SID>show_documentation()<CR>
