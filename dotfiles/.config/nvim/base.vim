@@ -117,7 +117,7 @@ augroup END
 
 " プラグインごとのキーマップ
 " fzf & ripgrep
-nnoremap <C-b> :Buffers<CR>
+nnoremap <C-m> :Buffers<CR>
 nnoremap <C-g> :Rg<Space>
 nnoremap <leader><leader> :Commands<CR>
 nnoremap <C-p> :call FzfOmniFiles()<CR>

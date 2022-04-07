@@ -32,12 +32,13 @@ Plug 'Shougo/ddc-sorter_rank'
 Plug 'Shougo/ddc-converter_remove_overlap'
 Plug 'neovim/nvim-lspconfig'
 Plug 'simrat39/rust-tools.nvim'
-
+Plug 'rust-lang/rust.vim'
 " Debugging
 Plug 'nvim-lua/plenary.nvim'
 Plug 'mfussenegger/nvim-dap'
 call plug#end()
 
+source ~/.config/nvim/plugins/vim-lsp.rc.vim
 source ~/.config/nvim/plugins/ddc.rc.vim
 source ~/.config/nvim/plugins/tex.vim
 source ~/.config/nvim/plugins/fzf.vim
