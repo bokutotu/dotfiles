@@ -211,6 +211,9 @@ export PATH="$PYENV_ROOT/bin:$PATH"
 eval "$(pyenv init --path)"
 eval "$(pyenv init -)"
 
+# conda
+export PATH="$PYENV_ROOT/versions/miniforge3/bin:$PATH"
+
 export PATH="/opt/homebrew/opt/luajit-openresty/bin:$PATH"
 export PATH=/opt/local/lib/postgresql13/bin:$PATH
 [ -f "/Users/kondouakira/.ghcup/env" ] && source "/Users/kondouakira/.ghcup/env" # ghcup-env
