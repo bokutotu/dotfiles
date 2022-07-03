@@ -2,6 +2,8 @@ hi CocRustTypeHint ctermfg=14 gui=bold guifg=#66d9ef
 
 let g:coc_global_extensions = ['coc-json', 'coc-python', 'coc-rust-analyzer']
 
+let g:coc_global_config="$HOME/.config/nvim/coc-settings.json"
+
 " Set internal encoding of vim, not needed on neovim, since coc.nvim using some
 " unicode characters in the file autoload/float.vim
 set encoding=utf-8
