@@ -1,4 +1,12 @@
 {
     "rust-analyzer.enable": true,
     "rust-analyzer.inlayHints.enable":true,
+    "languageserver": {
+    "elmLS": {
+      "command": "elm-language-server",
+      "filetypes": ["elm"],
+      "rootPatterns": ["elm.json"]
+    }
+  },
+  "codeLens.enable": true
 }
