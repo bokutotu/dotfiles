@@ -1,9 +1,9 @@
 use dirs::home_dir;
 
-use std::process::Command;
 use std::convert::AsRef;
-use std::path::{Path, PathBuf};
 use std::fs;
+use std::path::{Path, PathBuf};
+use std::process::Command;
 use std::string::FromUtf8Error;
 
 #[derive(Debug)]
@@ -50,8 +50,7 @@ impl std::error::Error for Error {}
 
 /// pathから、remove_stringを排除し、Stringとしてかえす。
 fn remove_useless_path_string(remove_string: &String, path: &PathBuf) -> String {
-    path
-        .as_os_str()
+    path.as_os_str()
         .to_str()
         .unwrap()
         .to_string()
@@ -78,10 +77,8 @@ fn dir_traversal<'a, T: AsRef<Path>>(dir: T) -> Result<Vec<PathBuf>, Error> {
 /// 確認する。
 fn dir_exist<P: AsRef<Path> + std::fmt::Debug>(path: P) -> bool {
     let mut path = path.as_ref();
-    path = match path.parent(){
-        Some(x) => {
-            x
-        },
+    path = match path.parent() {
+        Some(x) => x,
         None => panic!("入力されたパスに誤りがありそうだわん"),
     };
     path.exists()
@@ -97,14 +94,14 @@ fn mkdir_rec<P: AsRef<Path>>(dir: P) -> Result<(), Error> {
 /// 無ければ、ディレクトリ作成、あれば何もしない
 fn check_and_mkdir<P: AsRef<Path> + std::fmt::Debug>(path: P) -> Result<(), Error> {
     if dir_exist(&path) {
-        return Ok(())
+        return Ok(());
     } else {
         let path = path.as_ref();
         let parent = match path.parent() {
             Some(x) => x,
             None => {
                 panic!("なんかおかしい2022年");
-            },
+            }
         };
         println!("dir {:?} is not exit. so mkdir", &parent);
         mkdir_rec(&parent)?;
@@ -113,7 +110,7 @@ fn check_and_mkdir<P: AsRef<Path> + std::fmt::Debug>(path: P) -> Result<(), Erro
 }
 
 /// std::fs::copyのラッパー
-fn cp<P: AsRef<Path> + std::fmt::Debug> (source: P, target: P) -> Result<(), Error>{
+fn cp<P: AsRef<Path> + std::fmt::Debug>(source: P, target: P) -> Result<(), Error> {
     check_and_mkdir(&target)?;
     fs::copy(source.as_ref(), target.as_ref())?;
     Ok(())
@@ -136,22 +133,22 @@ fn is_installed<P: AsRef<Path>>(path: P) -> bool {
 }
 
 fn zinit() -> Result<(), Error> {
-    let mut zinit_dir = home_dir().unwrap(); 
+    let mut zinit_dir = home_dir().unwrap();
     zinit_dir.push(".local/share/zinit");
     if is_installed(zinit_dir) {
         println!("ZINIT is already installed");
-        return Ok(())
+        return Ok(());
     }
 
     println!("=============================================");
     println!("install zinit");
     let zinit_install_script = String::from_utf8(
-            Command::new("curl")
-                .arg("-fsSL")
-                .arg("https://git.io/zinit-install")
-                .output()
-                .expect("Faild to get ZINIT install script")
-                .stdout
+        Command::new("curl")
+            .arg("-fsSL")
+            .arg("https://git.io/zinit-install")
+            .output()
+            .expect("Faild to get ZINIT install script")
+            .stdout,
     )?;
     let install_res = Command::new("sh")
         .arg("-c")
@@ -172,7 +169,7 @@ fn fzf() -> Result<(), Error> {
     fzf_install_dir.push(".fzf.zsh");
     if is_installed(fzf_install_dir) {
         println!("fzf is already installed");
-        return Ok(())
+        return Ok(());
     }
 
     println!("=============================================");
@@ -207,7 +204,7 @@ fn ripgrep() -> Result<(), Error> {
     Ok(())
 }
 
-fn main() -> Result<(),Error> {
+fn main() -> Result<(), Error> {
     let dofiles_path = "./dotfiles".to_string();
     let files = dir_traversal(&dofiles_path).unwrap();
     let home_dir = home_dir().unwrap();
