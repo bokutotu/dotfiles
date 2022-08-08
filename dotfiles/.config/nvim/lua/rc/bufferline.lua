@@ -36,13 +36,19 @@
       debug = {
         logging = true,
       },
+      indicator_icon = '▎',
+      buffer_close_icon = '',
+      modified_icon = '●',
+      close_icon = '',
+      left_trunc_marker = '',
+      right_trunc_marker = '',
       mode = 'buffers', -- tabs
       sort_by = 'insert_after_current',
       right_mouse_command = 'vert sbuffer %d',
       show_close_icon = false,
       ---based on https://github.com/kovidgoyal/kitty/issues/957
       -- separator_style = os.getenv('KITTY_WINDOW_ID') and 'slant' or 'padded_slant',
-      show_buffer_close_icons = false,
+      show_buffer_close_icons = true,
       diagnostics = 'nvim_lsp',
       diagnostics_indicator = diagnostics_indicator,
       diagnostics_update_in_insert = false,
